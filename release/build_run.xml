@@ -4,8 +4,8 @@
 	<property name="serverip" value="10.32.34.115:8000" />
 	<property name="report.path" value="test/tools/br/report" />
 	<property name="coverage.path" value="test/coverage" />
-	<property name="report.file" value="test/tools/br/report.xml" />
-	<property name="git.project" value="Tangram-base" />
+	<property name="report.file" value="test/result/report.xml" />
+	<property name="git.project" value="t" />
 	<property name="git.user" value="" />
 	<path id="ext.classpath">
 		<fileset dir="test/tools/lib">
@@ -29,14 +29,18 @@
 			<arg value="--encoding=UTF-8" />
 			<arg value="src" />
 			<arg value="${coverage.path}" />
-		</exec>
+		</exec> 
 	</target>
 
 	<target name="execute" depends="init,coverage">
 		<gitext />
 		<get src="http://${serverip}/${git.user}/${git.project}/test/tools/br/runall.php?ci=true&amp;cov=true" dest="/tmp/${git.user}_${git.project}.php" />
 	</target>
-	<target name="getreport" depends="init,coverage,execute">
+	<target name="execute_j" depends="init,coverage">
+		<gitext />
+		<get src="http://${serverip}/addTask?proj=t"/>
+	</target>
+	<target name="getreport" depends="init,coverage,execute_j">
 		<waitfor maxwait="300" maxwaitunit="second">
 			<available file="${report.file}" />
 		</waitfor>
